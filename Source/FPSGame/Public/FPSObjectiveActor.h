@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "FPSObjectiveActor.generated.h"
 
+class USphereComponent;
+
 UCLASS()
 class FPSGAME_API AFPSObjectiveActor : public AActor
 {
@@ -16,6 +18,13 @@ public:
 	AFPSObjectiveActor();
 
 protected:
+
+	UPROPERTY(VisibleAnywhere, Category = "Components") // 希望在蓝图中更改组件的值
+	UStaticMeshComponent* MeshComp;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	USphereComponent* SphereComp;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
