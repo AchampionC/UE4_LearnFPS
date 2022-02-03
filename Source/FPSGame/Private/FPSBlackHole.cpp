@@ -15,36 +15,35 @@ AFPSBlackHole::AFPSBlackHole()
 	RootComponent = MeshComp;
 
 	BigSphere = CreateDefaultSubobject<USphereComponent>(TEXT("Big Sphere"));
-	BigSphere->SetCollisionEnabled(ECollisionEnabled::QueryOnly); // 将碰撞只用于raycasts, sweeps, overlap, 这些查询通道
-	BigSphere->SetCollisionResponseToAllChannels(ECR_Ignore); // 忽略所有通道的碰撞
-	BigSphere->SetCollisionResponseToChannel(ECC_Visibility, ECR_Overlap); // 将碰撞只用于raycasts, sweeps, overlap, 这些查询通道
 	BigSphere->SetupAttachment(RootComponent);
 
 	SmallSphere = CreateDefaultSubobject<USphereComponent>(TEXT("Small Sphere"));
-	SmallSphere->SetCollisionEnabled(ECollisionEnabled::PhysicsOnly); // 将碰撞只用于raycasts, sweeps, overlap, 这些查询通道
 	SmallSphere->SetupAttachment(RootComponent);
-
+	SmallSphere->OnComponentBeginOverlap.AddDynamic(this, &AFPSBlackHole::OverlapSmallSphere);
 }
 
-// Called when the game starts or when spawned
-void AFPSBlackHole::BeginPlay()
+void AFPSBlackHole::OverlapSmallSphere(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	Super::BeginPlay();
-	
+	if (OtherActor)
+	{
+		OtherActor->Destroy();
+	}
 }
 
 // Called every frame
 void AFPSBlackHole::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	TArray<AActor*> Actors;
-	BigSphere->GetOverlappingActors(Actors);
-	for (AActor* actor : Actors)
+
+	TArray<UPrimitiveComponent*> OverlappingComps;
+	BigSphere->GetOverlappingComponents(OverlappingComps);
+
+	for (int i = 0; i < OverlappingComps.Num(); i++)
 	{
-		UStaticMeshComponent* meshcomp = Cast<UStaticMeshComponent>(actor->GetComponentByClass(UStaticMeshComponent::StaticClass()));
-		if (meshcomp)
+		UPrimitiveComponent* PrimComp = OverlappingComps[i];
+		if (PrimComp && PrimComp->IsSimulatingPhysics())
 		{
-			meshcomp->AddRadialForce(GetActorLocation(), BigSphere->GetScaledSphereRadius(), 100.0f, RIF_Linear);
+			PrimComp->AddRadialForce(GetActorLocation(), BigSphere->GetScaledSphereRadius(), -2000.0f, RIF_Linear, true);
 		}
 	}
 }

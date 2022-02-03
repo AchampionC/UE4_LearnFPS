@@ -26,8 +26,9 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	USphereComponent* SmallSphere; // 用于碰撞, 使得碰撞的actor消失
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+
+	UFUNCTION()
+	void OverlapSmallSphere(class UPrimitiveComponent* HitComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 public:	
 	// Called every frame
