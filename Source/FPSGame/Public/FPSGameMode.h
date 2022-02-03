@@ -10,6 +10,10 @@ UCLASS()
 class AFPSGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
+protected:
+
+	UPROPERTY(EditDefaultsOnly, Category = "Spectating")
+	TSubclassOf<AActor> SpectatingViewPointClass; // 表示需要过滤出来的class类型
 
 public:
 
