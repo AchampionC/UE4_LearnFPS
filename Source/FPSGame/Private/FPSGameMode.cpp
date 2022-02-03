@@ -23,5 +23,5 @@ void AFPSGameMode::MissionComplete(APawn* InstigatorPawn)
 	}
 
 	// 蓝图实现任务完成逻辑
-	OnMissionComplete();
+	OnMissionComplete(InstigatorPawn);
 }

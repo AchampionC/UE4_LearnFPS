@@ -18,7 +18,7 @@ public:
 	void MissionComplete(APawn* InstigatorPawn);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "GameMode")
-	void OnMissionComplete();
+	void OnMissionComplete(APawn* InstigatorPawn);
 };
 
 
