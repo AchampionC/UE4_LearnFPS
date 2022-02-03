@@ -24,6 +24,8 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UDecalComponent* DecalComp;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Sounds")
+		USoundBase* ObjectiveMissionSound; // 由于游戏中ExtrationZone是蓝图实例化的, 所以代码中不需要赋值创建
 protected:
 
 	UFUNCTION() // 绑定函数的时候, 这一行一定要加, 否则会触发崩溃 

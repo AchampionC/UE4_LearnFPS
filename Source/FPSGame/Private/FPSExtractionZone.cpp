@@ -6,6 +6,7 @@
 #include "Components/DecalComponent.h"
 #include "FPSGameMode.h"
 #include "FPSCharacter.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AFPSExtractionZone::AFPSExtractionZone()
@@ -35,13 +36,21 @@ void AFPSExtractionZone::HandleOverlap(UPrimitiveComponent* HitComp, AActor* Oth
 
 	AFPSCharacter* MyPlayer = Cast< AFPSCharacter>(OtherActor);
 
+	if (MyPlayer == nullptr)
+	{
+		return;
+	}
 	// 先判断有没有拿到物品, 再判断去找GM(!!!第1次逻辑写反了, 先if(GM)了)
-	if (MyPlayer && MyPlayer->bIsCarryingObjective)
+	if (MyPlayer->bIsCarryingObjective)
 	{
 		AFPSGameMode* GM = Cast<AFPSGameMode>(GetWorld()->GetAuthGameMode());
 		if (GM)
 		{
 			GM->MissionComplete(MyPlayer);
 		}
+	}
+	else
+	{
+		UGameplayStatics::PlaySound2D(this, ObjectiveMissionSound);
 	}
 }
