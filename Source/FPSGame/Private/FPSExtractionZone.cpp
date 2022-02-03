@@ -4,6 +4,8 @@
 #include "FPSExtractionZone.h"
 #include "Components/BoxComponent.h"
 #include "Components/DecalComponent.h"
+#include "FPSGameMode.h"
+#include "FPSCharacter.h"
 
 // Sets default values
 AFPSExtractionZone::AFPSExtractionZone()
@@ -29,6 +31,17 @@ AFPSExtractionZone::AFPSExtractionZone()
 
 void AFPSExtractionZone::HandleOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Log, TEXT("player was in box."));
+	//UE_LOG(LogTemp, Log, TEXT("player was in box."));
 
+	AFPSCharacter* MyPlayer = Cast< AFPSCharacter>(OtherActor);
+
+	// 先判断有没有拿到物品, 再判断去找GM(!!!第1次逻辑写反了, 先if(GM)了)
+	if (MyPlayer && MyPlayer->bIsCarryingObjective)
+	{
+		AFPSGameMode* GM = Cast<AFPSGameMode>(GetWorld()->GetAuthGameMode());
+		if (GM)
+		{
+			GM->MissionComplete(MyPlayer);
+		}
+	}
 }
