@@ -3,6 +3,7 @@
 
 #include "FPSExtractionZone.h"
 #include "Components/BoxComponent.h"
+#include "Components/DecalComponent.h"
 
 // Sets default values
 AFPSExtractionZone::AFPSExtractionZone()
@@ -19,9 +20,15 @@ AFPSExtractionZone::AFPSExtractionZone()
 
 	OverlapComp->SetHiddenInGame(false);
 	OverlapComp->OnComponentBeginOverlap.AddDynamic(this, &AFPSExtractionZone::HandleOverlap);
+
+	DecalComp = CreateDefaultSubobject<UDecalComponent>(TEXT("DecalComp"));
+	DecalComp->DecalSize = FVector(200);
+	DecalComp->SetupAttachment(RootComponent);
+
 }
 
 void AFPSExtractionZone::HandleOverlap(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	UE_LOG(LogTemp, Log, TEXT("player was in box."));
+
 }

@@ -7,6 +7,7 @@
 #include "FPSExtractionZone.generated.h"
 
 class UBoxComponent;
+class UDecalComponent;
 
 UCLASS()
 class FPSGAME_API AFPSExtractionZone : public AActor
@@ -19,6 +20,10 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 		UBoxComponent* OverlapComp;
+
+	UPROPERTY(VisibleAnywhere, Category = "Components")
+	UDecalComponent* DecalComp;
+
 protected:
 
 	UFUNCTION() // 绑定函数的时候, 这一行一定要加, 否则会触发崩溃 
