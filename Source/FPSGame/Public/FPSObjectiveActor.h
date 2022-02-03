@@ -34,8 +34,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Effects")
 	UParticleSystem* PickupFX;
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override; // 因为需要重写这个函数, 所以加 “override”
 
