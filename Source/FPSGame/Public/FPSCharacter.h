@@ -40,7 +40,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Camera")
 	TSubclassOf<UCameraShakeBase> JumpCameraShake;
 
-	UPROPERTY(EditDefaultsOnly, Category = "AI")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
 	UPawnNoiseEmitterComponent* NoiseEmitterComp;
 
 public:
