@@ -15,7 +15,7 @@ AFPSGameMode::AFPSGameMode()
 	HUDClass = AFPSHUD::StaticClass();
 }
 
-void AFPSGameMode::MissionComplete(APawn* InstigatorPawn)
+void AFPSGameMode::MissionComplete(APawn* InstigatorPawn, bool IsMissionComplete)
 {
 	if (InstigatorPawn)
 	{
@@ -43,7 +43,7 @@ void AFPSGameMode::MissionComplete(APawn* InstigatorPawn)
 		}
 	}
 
-	// 蓝图实现任务完成逻辑
-	OnMissionComplete(InstigatorPawn);
+	// 蓝图实现任务完成, 显示UI TEXT逻辑
+	OnMissionComplete(InstigatorPawn, IsMissionComplete);
 
 }

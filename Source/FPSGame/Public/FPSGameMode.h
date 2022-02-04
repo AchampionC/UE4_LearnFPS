@@ -19,10 +19,10 @@ public:
 
 	AFPSGameMode();
 
-	void MissionComplete(APawn* InstigatorPawn);
+	void MissionComplete(APawn* InstigatorPawn, bool IsMissionComplete);
 
 	UFUNCTION(BlueprintImplementableEvent, Category = "GameMode")
-	void OnMissionComplete(APawn* InstigatorPawn);
+	void OnMissionComplete(APawn* InstigatorPawn, bool IsMissionComplete);
 };
 
 
