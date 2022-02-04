@@ -5,6 +5,7 @@
 #include "FPSCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
+#include "FPSGameState.h"
 AFPSGameMode::AFPSGameMode()
 {
 	// set default pawn class to our Blueprinted character
@@ -13,6 +14,7 @@ AFPSGameMode::AFPSGameMode()
 
 	// use our custom HUD class
 	HUDClass = AFPSHUD::StaticClass();
+	GameStateClass = AFPSGameState::StaticClass();
 }
 
 void AFPSGameMode::MissionComplete(APawn* InstigatorPawn, bool IsMissionComplete)
@@ -43,6 +45,11 @@ void AFPSGameMode::MissionComplete(APawn* InstigatorPawn, bool IsMissionComplete
 		}
 	}
 
+	AFPSGameState* GS = GetGameState<AFPSGameState>();
+	if (GS)
+	{
+		GS->MulticastOnMissionComplete(InstigatorPawn, IsMissionComplete);
+	}
 	// 蓝图实现任务完成, 显示UI TEXT逻辑
 	OnMissionComplete(InstigatorPawn, IsMissionComplete);
 
