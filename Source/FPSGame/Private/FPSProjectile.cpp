@@ -28,6 +28,10 @@ AFPSProjectile::AFPSProjectile()
 	ProjectileMovement->MaxSpeed = 3000.f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
 	ProjectileMovement->bShouldBounce = true;
+
+	SetReplicates(true);
+	SetReplicateMovement(true);
+
 }
 
 
@@ -83,7 +87,10 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 		Explode();
 	}
 
-	MakeNoise(1.0f, GetInstigator());
+	if (GetLocalRole() == ROLE_Authority)
+	{
+		MakeNoise(1.0f, GetInstigator());
+	}
 	//if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
 	//{
 	//	OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
