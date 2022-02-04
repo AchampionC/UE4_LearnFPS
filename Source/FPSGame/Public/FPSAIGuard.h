@@ -27,7 +27,14 @@ protected:
 	void OnSeenPawn(APawn* SeenPawn);
 
 	UFUNCTION()
-		void OnHeardPawn(APawn* NoiseInstigator, const FVector& Location, float Volume);
+	void OnHeardPawn(APawn* NoiseInstigator, const FVector& Location, float Volume);
+
+	FRotator OriginRotator;
+
+	UFUNCTION()
+		void ResetOriginRotation();
+
+	FTimerHandle TimerHandler_ResetOriginRotation;
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

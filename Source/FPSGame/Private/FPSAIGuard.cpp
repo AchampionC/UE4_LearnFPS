@@ -20,7 +20,7 @@ AFPSAIGuard::AFPSAIGuard()
 void AFPSAIGuard::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	OriginRotator = GetActorRotation();
 }
 
 void AFPSAIGuard::OnSeenPawn(APawn* SeenPawn)
@@ -35,8 +35,26 @@ void AFPSAIGuard::OnSeenPawn(APawn* SeenPawn)
 
 void AFPSAIGuard::OnHeardPawn(APawn* NoiseInstigator, const FVector& Location, float Volume)
 {
-
 	DrawDebugSphere(GetWorld(), Location, 32.0f, 12, FColor::Green, false, 10.0f);
+	
+	FVector Direction = Location - GetActorLocation();
+	Direction.Normalize();
+	FRotator NewLookAt = FRotationMatrix::MakeFromX(Direction).Rotator();
+	// 为了让AIGuard正确的站立, 而不是斜着站立, 因为旋转向量有 Pitch, Yaw, Roll三个分量
+	NewLookAt.Pitch = 0;
+	NewLookAt.Roll = 0;
+	SetActorRotation(NewLookAt);
+	
+	
+	// 设置定时器的时候, 先删除上一个定时器
+	GetWorldTimerManager().ClearTimer(TimerHandler_ResetOriginRotation);
+	GetWorldTimerManager().SetTimer(TimerHandler_ResetOriginRotation, this, &AFPSAIGuard::ResetOriginRotation, 3.0f, false);
+
+}
+
+void AFPSAIGuard::ResetOriginRotation()
+{
+	SetActorRotation(OriginRotator);
 }
 
 // Called every frame
