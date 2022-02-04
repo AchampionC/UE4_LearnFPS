@@ -16,19 +16,21 @@ public:
 	// Sets default values for this actor's properties
 	AFPSLaunchPad();
 
+protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Components")
 		UBoxComponent* BoxComp;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Components")
 		UStaticMeshComponent* MeshComp;
 
-	UPROPERTY(EditDefaultsOnly, Category = "Components")
-		UDecalComponent* Decal1;
-	UPROPERTY(EditDefaultsOnly, Category = "Components")
-		UDecalComponent* Decal2;
-	UPROPERTY(EditDefaultsOnly, Category = "Effects")
+	UPROPERTY(EditDefaultsOnly, Category = "LaunchPad")
 		UParticleSystem* ExplisionEffects;
-protected:
+
+	UPROPERTY(EditDefaultsOnly, Category = "LaunchPad")
+		float LaunchStrength;
+	UPROPERTY(EditDefaultsOnly, Category = "LaunchPad")
+		float LaunchPitchAngle;
+
 
 	UFUNCTION()
 		void OverlapHandler(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
