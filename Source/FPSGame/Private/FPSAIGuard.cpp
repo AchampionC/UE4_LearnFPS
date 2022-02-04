@@ -6,7 +6,7 @@
 #include "DrawDebugHelpers.h"
 #include "FPSGameMode.h"
 #include "Blueprint/AIBlueprintHelperLibrary.h"
-
+#include "Net/UnrealNetwork.h"
 // Sets default values
 AFPSAIGuard::AFPSAIGuard()
 {
@@ -105,6 +105,11 @@ void AFPSAIGuard::ResetOriginRotation()
 	}
 }
 
+void AFPSAIGuard::OnRep_GuardState()
+{
+	OnStateChanged(GuardState);
+}
+
 void AFPSAIGuard::SetGuardState(EAIState NewState)
 {
 	if (GuardState == NewState)
@@ -113,9 +118,8 @@ void AFPSAIGuard::SetGuardState(EAIState NewState)
 	}
 
 	GuardState = NewState;
+	OnRep_GuardState();
 
-	// 调用蓝图逻辑, 方便更改Text
-	OnStateChanged(NewState);
 }
 
 // Called every frame
@@ -149,3 +153,9 @@ void AFPSAIGuard::MoveToNextPatrolPoint()
 	UAIBlueprintHelperLibrary::SimpleMoveToActor(GetController(), CurrentPatrolPoint);
 }
 
+void AFPSAIGuard::GetLifetimeReplicatedProps(TArray< FLifetimeProperty >& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AFPSAIGuard, GuardState);
+}
