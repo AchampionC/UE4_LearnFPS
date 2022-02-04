@@ -65,7 +65,7 @@ public:
 
 	virtual void OnJumped_Implementation() override;
 
-	UPROPERTY(BlueprintReadOnly, Category = "Gameplay")
+	UPROPERTY(Replicated, BlueprintReadOnly, Category = "Gameplay")
 	bool bIsCarryingObjective;
 protected:
 	

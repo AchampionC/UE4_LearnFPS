@@ -107,6 +107,7 @@ void AFPSAIGuard::ResetOriginRotation()
 
 void AFPSAIGuard::OnRep_GuardState()
 {
+	// 蓝图逻辑迁移至可以同步给客户端的函数里面
 	OnStateChanged(GuardState);
 }
 
