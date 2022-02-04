@@ -23,6 +23,8 @@ AFPSObjectiveActor::AFPSObjectiveActor()
 	// 可以像以前一样addDynamic待补充
 	// 注意AddDynamic()绑定的函数，一定要像OnCollision(...) ...中参数对齐, 否则编译不通过
 	// SphereComp->OnComponentBeginOverlap.AddDynamic(this, &AFPSObjectiveActor::OnCollision);
+
+	SetReplicates(true);
 }
 
 // Called when the game starts or when spawned
@@ -50,13 +52,17 @@ void AFPSObjectiveActor::NotifyActorBeginOverlap(AActor* OtherActor)
 
 	PlayEffects();
 
-	AFPSCharacter* MyCharacter = Cast<AFPSCharacter>(OtherActor);
-	if (MyCharacter)
+	if (GetLocalRole() == ROLE_Authority)
 	{
-		MyCharacter->bIsCarryingObjective = true;
-		
-		// 销毁物体, 造成物体被玩家拾取的假象
-		Destroy();
+		AFPSCharacter* MyCharacter = Cast<AFPSCharacter>(OtherActor);
+		if (MyCharacter)
+		{
+			MyCharacter->bIsCarryingObjective = true;
+
+			// 销毁物体, 造成物体被玩家拾取的假象
+			Destroy();
+		}
 	}
+
 }
 
