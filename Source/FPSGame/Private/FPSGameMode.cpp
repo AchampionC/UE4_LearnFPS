@@ -21,7 +21,6 @@ void AFPSGameMode::MissionComplete(APawn* InstigatorPawn, bool IsMissionComplete
 {
 	if (InstigatorPawn)
 	{
-		InstigatorPawn->DisableInput(nullptr);
 
 		if (SpectatingViewPointClass) {
 			TArray<AActor*> ReturnedActors;
@@ -32,9 +31,10 @@ void AFPSGameMode::MissionComplete(APawn* InstigatorPawn, bool IsMissionComplete
 			{
 				AActor* NewViewTarget = ReturnedActors[0];
 
-				APlayerController* PC = Cast< APlayerController>(InstigatorPawn->GetController());
-				if (PC)
+				for (FConstPlayerControllerIterator it = GetWorld()->GetPlayerControllerIterator(); it; it++)
 				{
+					APlayerController* PC = it->Get();
+
 					PC->SetViewTargetWithBlend(NewViewTarget, 0.5, EViewTargetBlendFunction::VTBlend_Cubic);
 				}
 			}
