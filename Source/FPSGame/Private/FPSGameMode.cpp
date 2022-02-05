@@ -50,7 +50,7 @@ void AFPSGameMode::MissionComplete(APawn* InstigatorPawn, bool IsMissionComplete
 	{
 		GS->MulticastOnMissionComplete(InstigatorPawn, IsMissionComplete);
 	}
-	// 蓝图实现任务完成, 显示UI TEXT逻辑
-	OnMissionComplete(InstigatorPawn, IsMissionComplete);
+	//// 蓝图实现任务完成, 显示UI TEXT逻辑
+	//OnMissionComplete(InstigatorPawn, IsMissionComplete);
 
 }
